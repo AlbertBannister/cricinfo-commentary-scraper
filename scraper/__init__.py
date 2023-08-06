@@ -170,19 +170,6 @@ def get_match_detail(series_id, match_id, debug=False):
 def extract_ids(urls):
     return [url.split("/")[-1] for url in urls]
 
-def get_series_ids(class_id):
-    first_page = json_resp(SERIES_LIST_URL, dict(page=1, classId=class_id), debug=False)
-    page_count = first_page["pageCount"]
-    urls = [(SERIES_LIST_URL, {"page": p, "classId": class_id}) for p in range(1, page_count + 1)]
-
-    res = []
-    with ThreadPoolExecutor() as exec:
-        futures = [exec.submit(json_resp, *url) for url in urls]
-        for future in as_completed(futures):
-            res += [url for url in extract_items(future.result())]
-    
-    return extract_ids(res)
-
 def get_seasons_meta(series_id):
     seasons_urls = json_resp("/".join([SERIES_LIST_URL, str(series_id), "seasons"]))
     return [json_resp(url) for url in extract_items(seasons_urls)]
