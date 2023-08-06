@@ -194,14 +194,20 @@ def extract_ids(urls):
     return [url.split("/")[-1] for url in urls]
 
 def get_series_ids(class_id):
-    first_page = json_resp(SERIES_LIST_URL, dict(page=1, classId=class_id), debug=False)
+    def make_params(page, class_id):
+        if class_id is None:
+            return dict(page=page)
+        else:
+            return dict(page=page, classId=class_id)
+    
+    first_page = json_resp(SERIES_LIST_URL, make_params(1, class_id), debug=False)
     page_count = first_page["pageCount"]
-    urls = [(SERIES_LIST_URL, {"page": p, "classId": 1}) for p in range(1, page_count + 1)]
+    urls = [(SERIES_LIST_URL, make_params(p, class_id)) for p in range(1, page_count + 1)]
 
     res = []
     with ThreadPoolExecutor() as exec:
         futures = [exec.submit(json_resp, *url) for url in urls]
         for future in as_completed(futures):
             res += [url for url in extract_items(future.result())]
-    
+
     return extract_ids(res)
