@@ -7,12 +7,14 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 SERIES_LIST_URL = "http://core.espnuk.org/v2/sports/cricket/leagues"
 MATCH_REPORT_URL = "https://hs-consumer-api.espncricinfo.com/v1/pages/match/report"
-MATCH_DETAIL_URL = "https://hs-consumer-api.espncricinfo.com/v1/pages/match/details"
+MATCH_DETAIL_URL = "https://hs-consumer-api.espncricinfo.com/v1/pages/match/scorecard"
 COMMENTARY_URL = "https://hs-consumer-api.espncricinfo.com/v1/pages/match/comments"
 
 TEST = 1
 ODI = 2
 T20I = 3
+
+FORMAT_NAMES = {TEST: "TEST", ODI: "ODI", T20I: "T20I"}
 
 
 spoof_headers_raw = [{
@@ -167,8 +169,6 @@ def get_match_detail(series_id, match_id, debug=False):
     match_detail = json_resp(MATCH_DETAIL_URL, {"seriesId": series_id, "matchId": match_id}, debug=debug)
     return match_detail
 
-def extract_ids(urls):
-    return [url.split("/")[-1] for url in urls]
 
 def get_seasons_meta(series_id):
     seasons_urls = json_resp("/".join([SERIES_LIST_URL, str(series_id), "seasons"]))
