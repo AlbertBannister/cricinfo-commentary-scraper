@@ -115,8 +115,11 @@ def scrape_and_save(fn, save_path, overwrite=False, *args, **kwargs):
             print("Saved data {}".format(save_path))
     except:
         print("Could not save data {} to {}".format(data, save_path))
-
+        
 def scrape_game(series_id, match_id, debug=False):
+    """
+    Given a particular match and series ID, scrape all commentary for this game
+    """
     def scrape_chunk(series_id, match_id, inning_num, from_over, debug=False):
         """
         scrapes a chunk of commentary via AJAX request. The commentary comes in json chunks of up to two overs
@@ -166,6 +169,9 @@ def scrape_game(series_id, match_id, debug=False):
 
 
 def get_match_detail(series_id, match_id, debug=False):
+    """
+    Get the modern API match detail
+    """
     match_detail = json_resp(MATCH_DETAIL_URL, {"seriesId": series_id, "matchId": match_id}, debug=debug)
     return match_detail
 
