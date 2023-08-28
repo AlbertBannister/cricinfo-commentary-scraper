@@ -1,9 +1,12 @@
 # cricinfo-commentary-scraper
+
 Utility for scraping series, match, and ball-by-ball data from popular Cricket news site ESPNCricinfo. For whatever reason they have some very convenient exposed APIs which return lovely JSON data
 
 ## Set up venv
-python -m venv .venv
-pip install -r requirements.txt
+
+    python -m venv .venv
+    source .venv/bin/activate
+    pip install -r requirements.txt
 
 ## Importing
 Since it isn't packaged properly yet, we add the project base directory to our path,
