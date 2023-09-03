@@ -75,6 +75,21 @@ core_headers = {
 }
 
 
+def save_json(data, path, debug=False):
+    with open(path, "w") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
+    if debug:
+        print("saved {}".format(path))
+
+def load_json(path, debug=False):
+    with open(path, "r") as f:
+        data = json.load(f)
+
+    if debug:
+        print("loaded {}".format(path))
+
+    return data
+
 def json_resp(url, params=None, headers=None, debug=False):
   resp = requests.get(url, params=params, headers=headers)
   if debug:
@@ -114,7 +129,7 @@ def scrape_and_save(fn, save_path, overwrite=False, *args, **kwargs):
 
             print("Saved data {}".format(save_path))
     except:
-        print("Could not save data {} to {}".format(data, save_path))
+        print("Could not save data to {}".format(data, save_path))
         
 def scrape_game(series_id, match_id, debug=False):
     """
@@ -145,7 +160,7 @@ def scrape_game(series_id, match_id, debug=False):
     comms = []
     more_innings = True
 
-    if not scrape_chunk(series_id, match_id, 1, 0)["comments"]:
+    if not scrape_chunk(series_id, match_id, 1, 0).get("comments"):
         if debug:
             print("Game {} has no commentary".format(match_id))
         more_innings = False
