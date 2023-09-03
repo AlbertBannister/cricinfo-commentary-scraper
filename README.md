@@ -17,7 +17,7 @@ in this case relative to /notebooks
     import scraper
 
 ## Notebooks
-Look ahead for notes on the API, or run the notebooks in the order given.
+Look ahead for notes on the API, or run the notebooks in the order given. The notebooks are meant to be run for one format at a time to reduce 
 
 ### 1.
 **get_series.ipynb** walks through and gets all series corresponding to your given format of interest, and saves the series and season metadata in a year/series-slug/metadata.json structure
@@ -38,8 +38,9 @@ If we have the series_id and match_id, we can retrieve anything about the game. 
 
 We make use of two APIs - core.espnuk.org/v2/sports/cricket/ which offers paginated outputs for getting series and matches easily. I suspect it's deprecated as it doesn't appear to be used anywhere when I inspect pages
 
-https://hs-consumer-api.espncricinfo.com/v1/pages/match/ appears to be their modern api - it's used all over the place and has several handy endpoints. Going to keep digging as this is what they're using going forward.
+https://hs-consumer-api.espncricinfo.com/v1/pages/match/scorecard provides all the metadata about a match
 
+https://hs-consumer-api.espncricinfo.com/v1/pages/match/comments provides all the ball-by-ball commentary for a match
 
 
 
